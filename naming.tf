@@ -32,6 +32,7 @@ variable "student_id" {
   EOT
   type        = string
   nullable    = false
+  default     = "g14k00n123456"
   validation {
     condition     = can(regex("^g[0-9]{1,2}k[0-9]{2}n[0-9]{6}$", var.student_id))
     error_message = "Format: g<grupa>k<podgrupa>n<6 ostatnich cyfr indeksu>, np. g14k01n123456."

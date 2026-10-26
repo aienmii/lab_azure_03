@@ -15,6 +15,9 @@ resource "azurerm_storage_account" "files" {
 
   blob_properties {
     last_access_time_enabled = true # wymagane przez reguły "since_last_access"
+    delete_retention_policy {
+      days = 7
+    }
   }
 
   tags = merge(local.project_tags, { purpose = "file-sharing" })
