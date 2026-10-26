@@ -10,7 +10,19 @@ locals {
     project = var.project
   })
 
-  # TODO: Dodaj local shared_files (pliki do udostępnienia, krok 1)
+  # Pliki udostępniane przez SAS: nazwa blobu => ścieżka lokalna
+  shared_files = {
+    "document1.pdf"     = "./files/document1.pdf"
+    "presentation.pptx" = "./files/presentation.pptx"
+    "data.csv"          = "./files/data.csv"
+  }
 
-  # TODO: Dodaj local content_types (typy MIME wg rozszerzenia, krok 1)
+  content_types = {
+    pdf  = "application/pdf"
+    pptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    csv  = "text/csv"
+    html = "text/html"
+    css  = "text/css"
+    js   = "application/javascript"
+  }
 }
