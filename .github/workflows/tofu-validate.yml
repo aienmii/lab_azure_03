@@ -1,0 +1,32 @@
+# Wygenerowano przez scripts/publish_labs.py (scripts/templates/gh-workflow-tofu-validate.yml) -- nie edytować ręcznie.
+name: Validate OpenTofu
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Niektóre laby (np. find-sku) nie mają kodu tofu -- reszta kroków wtedy się pomija.
+      - id: tf
+        run: echo "found=$(find . -maxdepth 2 -name '*.tf' -print -quit)" >> "$GITHUB_OUTPUT"
+
+      - if: steps.tf.outputs.found != ''
+        uses: opentofu/setup-opentofu@v2
+        with:
+          tofu_version: "1.13.1"
+
+      - if: steps.tf.outputs.found != ''
+        run: tofu fmt -check -diff -recursive
+
+      # Bez backendu: w CI nie ma dostępu do stanu/sekretów, więc tylko weryfikacja składni.
+      - if: steps.tf.outputs.found != ''
+        run: tofu init -backend=false -input=false -no-color
+
+      - if: steps.tf.outputs.found != ''
+        run: tofu validate -no-color

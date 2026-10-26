@@ -1,0 +1,62 @@
+# VSCode
+
+.cursor/
+.idea/
+
+# Secrets
+.secrets/
+
+# Output files
+output/
+azure-kurs.pdf
+azure-kurs.docx
+azure-kurs.html
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Minted (syntax highlighting)
+course/_minted-*
+
+# macOS system files
+.DS_Store
+
+# Editor files
+*~
+*.swp
+*.swo
+
+# python
+*.pyc
+**/__pycache__/
+
+# Terraform/OpenTofu
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+**/*.tfvars.json
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+**/terraform.tfstate.backup
+**/.terragrunt-cache/
+**/.terragrunt-cache-*/
+terragrunt-debug.tfvars
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# spakowany kod Functions
+tofu/**/*.zip

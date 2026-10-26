@@ -1,0 +1,75 @@
+default_language_version:
+  python: python3.13
+
+repos:
+  # Automatyczna aktualizacja wersji hooków przed resztą przetwarzania.
+  # --jobs 1 i retry: autoupdate robi blobless partial clone każdego repo
+  # i leniwie dociąga manifest (.pre-commit-hooks.yaml) siecią -- przy
+  # domyślnej równoległości kolidowało to z ruchem sieciowym innych hooków
+  # (checkov) i sporadycznie sypało "invalid object ... Error building trees"
+  - repo: local
+    hooks:
+      - id: pre-commit-autoupdate
+        name: pre-commit autoupdate
+        entry: >-
+          env -u GIT_INDEX_FILE -u GIT_DIR -u GIT_WORK_TREE -u GIT_PREFIX
+          bash -c '(( $(git rev-list --count HEAD) % 10 )) || pre-commit autoupdate'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Terraform formatting, validation, and docs
+  - repo: https://github.com/tofuutils/pre-commit-opentofu
+    rev: v2.4.2  # użyj odpowiedniej wersji
+    hooks:
+      - id: tofu_validate
+      - id: tofu_fmt
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.109.3
+    hooks:
+      - id: terraform_docs
+
+  # Security and compliance (Checkov)
+  - repo: https://github.com/bridgecrewio/checkov
+    rev: 3.3.30
+    hooks:
+      - id: checkov
+        args:
+          - '--framework=terraform'
+          - '--skip-check=CKV_TF_1'
+          - '--skip-check=CKV_TF_2'
+          - '--skip-check=CKV_AZURE_33'
+          - '--skip-check=CKV_AZURE_35'
+          - '--skip-check=CKV_AZURE_40'
+          - '--skip-check=CKV_AZURE_43'
+          - '--skip-check=CKV_AZURE_59'
+          - '--skip-check=CKV_AZURE_109'
+          - '--skip-check=CKV_AZURE_112'
+          - '--skip-check=CKV_AZURE_114'
+          - '--skip-check=CKV_AZURE_189'
+          - '--skip-check=CKV_AZURE_190'
+          - '--skip-check=CKV_AZURE_206'
+          - '--skip-check=CKV2_AZURE_1'
+          - '--skip-check=CKV2_AZURE_21'
+          - '--skip-check=CKV2_AZURE_32'
+          - '--skip-check=CKV2_AZURE_33'
+          - '--skip-check=CKV2_AZURE_40'
+          - '--skip-check=CKV2_AZURE_41'
+          - '--skip-check=CKV2_AZURE_47'
+        language_version: python3.13
+
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: check-json
+      - id: check-toml
+        language_version: python3.13
