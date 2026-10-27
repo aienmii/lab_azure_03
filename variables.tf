@@ -16,7 +16,7 @@ variable "sas_validity_hours" {
 variable "static_website_enabled" {
   description = "Czy utworzyć Storage Account ze statyczną stroną WWW (część opcjonalna)"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "web_files" {
