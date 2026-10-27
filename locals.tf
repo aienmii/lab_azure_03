@@ -4,7 +4,9 @@ locals {
   workload       = "files" # => local.names.st = stfiles26<student_id>
   workload_short = null    # skrót, gdy workload nie mieści się w limicie nazwy (naming.tf)
 
-  # TODO: Dodaj local st_www dla statycznej strony (krok 4, opcjonalne)
+  # Odstępstwo od local.names.st: w tym repo są dwa Storage Account (pliki + strona WWW),
+  # a naming.tf generuje jedną nazwę na lab. Druga nazwa wg tego samego wzorca CAF.
+  st_www = "stwww${local.yy}${local.sid}"
 
   project_tags = merge(local.tags, {
     project = var.project

@@ -19,3 +19,7 @@ output "sas_token" {
 }
 
 # TODO: Dodaj output static_website_url (statyczna strona, krok 4)
+output "static_website_url" {
+  description = "Adres statycznej strony WWW (null, gdy static_website_enabled = false)"
+  value       = try(azurerm_storage_account.www[0].primary_web_endpoint, null)
+}
