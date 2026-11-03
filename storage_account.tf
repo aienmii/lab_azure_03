@@ -3,7 +3,7 @@
 resource "azurerm_storage_account" "files" {
   name                     = local.names.st # stfiles26<student_id>
   resource_group_name      = data.azurerm_resource_group.basic.name
-  location                 = data.azurerm_resource_group.basic.location
+  location                 = "polandcentral"
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
